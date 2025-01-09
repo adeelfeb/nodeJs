@@ -1,0 +1,11 @@
+{
+  "name": "serverurl",
+  "version": "1.0.0",
+  "description": "The terms **URL**, **URI**, and related concepts like **URN** are commonly used in web development, and understanding their differences is essential for working with web technologies. Here's a detailed breakdown:",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index"
+  },
+  "author": "",
+  "license": "ISC"
+}
