@@ -1,9 +1,12 @@
 // Import required modules
 const express = require("express");
 const users = require("./MOCK_DATA.json"); // Mock user data
-
+const fs = require("fs")
 // Initialize express app
 const app = express();
+
+// midddleware for the encoded data posted on the req
+app.use(express.urlencoded({extended: false}))
 
 /**
  * Route: GET /api/users/:id
@@ -53,34 +56,41 @@ app.get("/users", (req, res) => {
  * Note: This route is redundant as it's already handled by app.route above.
  * Keeping it may cause conflicts.
  */
-app.get("/api/users/:id", (req, res) => {
-  const id = Number(req.params.id);
-  const user = users.find((user) => id === user.id);
+// app.get("/api/users/:id", (req, res) => {
+//   const id = Number(req.params.id);
+//   const user = users.find((user) => id === user.id);
 
-  if (!user) {
-    return res.status(404).json({ error: "User not found" });
-  }
+//   if (!user) {
+//     return res.status(404).json({ error: "User not found" });
+//   }
 
-  return res.json(user);
-});
+//   return res.json(user);
+// });
 
 /**
  * Route: POST /api/users
  * Description: Create a new user (currently a placeholder).
  */
-app.post("/api/users", (req, res) => {
+app.post("/api/user", (req, res) => {
   // Placeholder for creating a new user
-  return res.json({ status: "pending" });
+  
+  
+  users.push({...req.body, id: users.length +1 })
+  fs.writeFile("./MOCK_DATA.json", JSON.stringify(users), (err, data)=>{
+
+    return res.json({ status: "added successfully" });
+  })
+
 });
 
 /**
  * Route: PATCH /api/users/:id
  * Description: Update user by ID (currently a placeholder).
  */
-app.patch("/api/users/:id", (req, res) => {
-  // Placeholder for updating a user
-  return res.json({ status: "pending" });
-});
+// app.patch("/api/user/:id", (req, res) => {
+//   // Placeholder for updating a user
+//   return res.json({ status: "pending" });
+// });
 
 /**
  * Start the server on port 8000
