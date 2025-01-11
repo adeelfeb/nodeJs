@@ -25,9 +25,41 @@ app.route("/api/users/:id")
     return res.json(user); // Respond with the user object
   })
   .patch((req, res) => {
-    // Patch handler for updating user - currently placeholder
-    return res.json({ status: "pending" });
+    const id = Number(req.params.id); // Convert ID from string to number
+    const userIndex = users.findIndex((user) => id === user.id); // Find the index of the user
+  
+    if (userIndex === -1) {
+      // If user not found, return 404
+      return res.status(404).json({ error: "User not found" });
+    }
+  
+    const { newEmail } = req.body;
+  
+    if (!newEmail) {
+      // Validate if newEmail exists in the request
+      return res.status(400).json({ error: "New email is required" });
+    }
+  
+    // Update only the email of the user
+    users[userIndex].email = newEmail;
+  
+    // Write only the updated users array back to the file
+    fs.writeFile("./MOCK_DATA.json", JSON.stringify(users, null, 2), (err) => {
+      if (err) {
+        console.error("Error writing to file:", err);
+        return res.status(500).json({ error: "Failed to update user" });
+      }
+  
+      // Respond with success and updated user
+      return res.json({
+        status: "Email updated successfully",
+        user: users[userIndex],
+      });
+    });
   });
+  
+  
+  
 
 /**
  * Route: GET /api/users
