@@ -8,6 +8,12 @@ const app = express();
 // midddleware for the encoded data posted on the req
 app.use(express.urlencoded({extended: false}))
 
+//custom middleware 
+app.use((req, res, next)=>{
+  console.log("inside middleware")
+  next()
+})
+
 /**
  * Route: GET /api/users/:id
  * Description: Retrieve a user by their unique ID.
