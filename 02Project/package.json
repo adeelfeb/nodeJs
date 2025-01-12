@@ -1,0 +1,11 @@
+{
+  "name": "02project",
+  "version": "1.0.0",
+  "description": "To shift an **HTTP server** to **HTTPS**, you need to add **SSL/TLS encryption** to your server. This involves obtaining an SSL certificate and configuring the server to use it. Here's a detailed explanation of how to implement HTTPS for both a Node.js HTTP server and an Express server:",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index"
+  },
+  "author": "",
+  "license": "ISC"
+}
