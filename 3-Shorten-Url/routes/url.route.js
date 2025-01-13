@@ -1,6 +1,12 @@
 const express = require("express")
-const {handleGetUrl} = require('../controllers/url.controller')
+const {handleGetUrl, handleGetAnalytics} = require('../controllers/url.controller')
 const urlRouter = express.Router()
 
-urlRouter.route("/")
-.get(handleGetUrl)
+urlRouter.route("")
+.post(handleGetUrl)
+
+urlRouter.route("/analytics/:shortId")
+.get(handleGetAnalytics)
+
+
+module.exports = urlRouter

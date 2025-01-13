@@ -1,16 +1,36 @@
-const express = require("express")
-const { get } = require("mongoose")
-const {userRouter} = require("./routes/user.route")
-const {connectDb} = require("./connectionDb")
-const app = express()
+const express = require("express");
+const cors = require("cors"); // Import the CORS package
+const { connectDb } = require("./connectionDb");
+const urlRouter = require("./routes/url.route");
+const Url = require("./models/url.model");
 
-const PORT = 8000 // this will be taken from the .env file but for now using this way
+const app = express();
 
-connectDb("mongodb://127.0.0.1:27017/usersdb3")
-app.use(express.urlencoded({extended: false}))
-app.use("/api/user", userRouter)
+const PORT = 8000;
 
+connectDb("mongodb://127.0.0.1:27017/usersdb3");
 
-app.listen(PORT, ()=>{
-    console.log(`Server running on Port:${PORT}`)
-})
+app.use(cors()); // Enable CORS
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+
+app.use("/api/url", urlRouter);
+
+app.get("/:shortId", async (req, res) => {
+  const shortId = req.params.shortId;
+  const entry = await Url.findOneAndUpdate(
+    { shortId },
+    {
+      $push: {
+        visitHistory: {
+          timeStamp: Date.now(),
+        },
+      },
+    }
+  );
+  res.redirect(entry.redirectUrl);
+});
+
+app.listen(PORT, () => {
+  console.log(`Server running on Port:${PORT}`);
+});
