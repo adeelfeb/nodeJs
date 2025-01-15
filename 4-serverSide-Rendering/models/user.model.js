@@ -11,12 +11,10 @@ const userSchema = new mongoose.Schema({
         unique: true
     },
     password: {
-        type: String
-    },
-    IP_adress:{
         type: String,
-        
-    }
+        required: true,
+    },
+    
 },{timestamps: true} )
 
 const User = mongoose.model("User", userSchema)
